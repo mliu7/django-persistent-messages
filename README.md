@@ -47,7 +47,7 @@ This document assumes that you are familiar with Python and Django.
 
 7. Set up the database tables using 
 
-	    $ manage.py syncdb
+	    $ manage.py migrate
 
 8. If you want to use the bundled templates, add the `templates` directory to your `TEMPLATE_DIRS` setting:
 
