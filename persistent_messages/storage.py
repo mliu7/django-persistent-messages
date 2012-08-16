@@ -8,7 +8,7 @@ from django.db.models import Q
 import datetime
 
 def get_user(request):
-    if hasattr(request, 'user') and request.user.__class__ != AnonymousUser:
+    if hasattr(request, 'user') and request.user.__class__ != AnonymousUser and request.user is not None:
         return request.user
     else:
         return AnonymousUser()
