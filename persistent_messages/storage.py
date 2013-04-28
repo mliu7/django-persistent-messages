@@ -95,10 +95,17 @@ class PersistentMessageStorage(FallbackStorage):
         """
         if not get_user(self.request).is_authenticated():
             return super(PersistentMessageStorage, self)._store(messages, response, *args, **kwargs)
+
+        unstored_messages = []
         for message in messages:
-            if not self.used or message.is_persistent():
-                if not message.pk:
+            if not self.used or (hasattr(message, 'is_persistent') and message.is_persistent()):
+                if hasattr(message, 'pk') and not message.pk:
                     message.save()
+                else:
+                    unstored_messages.append(message)
+
+        if unstored_messages:
+            return super(PersistentMessageStorage, self)._store(unstored_messages, response, *args, **kwargs)
         return []
 
     def update(self, response):
