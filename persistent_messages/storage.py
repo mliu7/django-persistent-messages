@@ -5,6 +5,7 @@ from django.contrib.messages.storage.base import BaseStorage
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.db.models import Q
+from django.utils import timezone
 import datetime
 
 def get_user(request):
@@ -29,7 +30,7 @@ class PersistentMessageStorage(FallbackStorage):
         self.is_anonymous = not get_user(self.request).is_authenticated()
 
     def _message_queryset(self, exclude_unread=True):
-        qs = Message.objects.filter(user=get_user(self.request)).filter(Q(expires=None) | Q(expires__gt=datetime.datetime.now()))
+        qs = Message.objects.filter(user=get_user(self.request)).filter(Q(expires=None) | Q(expires__gt=timezone.now()))
         if exclude_unread:
             qs = qs.exclude(read=True)
         return qs
