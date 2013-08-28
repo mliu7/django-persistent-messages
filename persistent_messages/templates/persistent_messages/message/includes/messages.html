@@ -8,6 +8,6 @@
     {% endfor %}
 </ul>
 {% if close_all and messages|length > 1 %}
-<a class="message-close-all icon" href="{% url message_mark_all_read %}"><span>{% trans "close all" %}</span></a>
+<a class="message-close-all icon" href="{{ url(message_mark_all_read) }}"><span>{% trans "close all" %}</span></a>
 {% endif %}
 {% endif %}
